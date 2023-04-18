@@ -5,6 +5,6 @@ class CompletedTodos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Compelted');
+    return const Text('Compeleted');
   }
 }

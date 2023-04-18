@@ -27,9 +27,47 @@ class MyApp extends StatelessWidget {
 }
 
 class AppState extends ChangeNotifier {
-  var newTodo = '';
-  var todos = <String>[];
-  var completed = <String>[];
+  var newTodo = 'newone';
+  var activeTodos = <String>[];
+  var completedTodos = <String>[];
+
+  void addTodo(String todo) {
+    activeTodos.add(todo);
+    notifyListeners();
+  }
+
+  void removeTodo(String todo) {
+    if (todo.contains(todo)) {
+      activeTodos.remove(todo);
+      notifyListeners();
+    }
+  }
+
+  void deleteTodo(String todo) {
+    if (activeTodos.contains(todo)) {
+      activeTodos.remove(todo);
+      notifyListeners();
+    } else if (completedTodos.contains(todo)) {
+      completedTodos.remove(todo);
+      notifyListeners();
+    }
+  }
+
+  void markComplete(todo) {
+    if (activeTodos.contains(todo)) {
+      completedTodos.add(todo);
+      activeTodos.remove(todo);
+      notifyListeners();
+    }
+  }
+
+  void markUncomplete(todo) {
+    if (activeTodos.contains(todo)) {
+      activeTodos.add(todo);
+      completedTodos.remove(todo);
+      notifyListeners();
+    }
+  }
 }
 
 class HomePage extends StatefulWidget {
@@ -77,7 +115,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.outlined_flag_sharp),
-            label: 'Completed',
+            label: 'CompletedTodos',
           ),
         ],
         currentIndex: _selectedPage,
