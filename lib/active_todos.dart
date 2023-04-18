@@ -3,17 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/main.dart';
 
 class ActiveTodos extends StatelessWidget {
-  const ActiveTodos({Key? key}) : super(key: key);
+  const ActiveTodos({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppState>(
-      builder: (context, appState, _) {
-        return Text(appState.newTodo);
-        // Todos list
-        // Completed toggle
-        // Add new todo button
-      },
-    );
+    var appState = Provider.of<AppState>(context);
+
+    return Text(appState.newTodo);
+    // Todos list
+    // Completed toggle
+    // Add new todo button
   }
 }
