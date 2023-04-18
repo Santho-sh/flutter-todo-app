@@ -9,6 +9,10 @@ class CompletedTodos extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = Provider.of<AppState>(context);
 
-    return Text(appState.newTodo);
+    return Column(
+      children: [
+        Text(appState.newTodo),
+      ],
+    );
   }
 }

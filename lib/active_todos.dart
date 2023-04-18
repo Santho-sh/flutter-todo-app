@@ -9,9 +9,53 @@ class ActiveTodos extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = Provider.of<AppState>(context);
 
-    return Text(appState.newTodo);
+    // If Todo list is empty
+    if (appState.activeTodos.isEmpty) {
+      return Center(
+        child: Column(
+          children: [
+            const Expanded(
+              child: Center(
+                child: Text('No Todos'),
+              ),
+            ),
+            // Add todo button
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Icon(Icons.add),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        Expanded(
+            child: ListView(
+          children: [
+            for (var todo in appState.activeTodos)
+              ListTile(
+                leading: const Icon(Icons.favorite),
+                title: Text(todo),
+              )
+          ],
+        )),
+        // Add todo button
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () {},
+            child: const Icon(Icons.add),
+          ),
+        ),
+      ],
+    );
     // Todos list
     // Completed toggle
-    // Add new todo button
   }
 }
