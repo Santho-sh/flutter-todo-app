@@ -60,7 +60,7 @@ class Todo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = Provider.of<AppState>(context);
-    
+
     return ListTile(
       leading: const Icon(Icons.label_important),
       title: Row(
@@ -81,12 +81,48 @@ class AddTodo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ElevatedButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
+    var appState = Provider.of<AppState>(context);
+
+    return ElevatedButton(
+      child: const Icon(Icons.add),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // variable to store input textfield data
+            var myController = TextEditingController();
+
+            return AlertDialog(
+              scrollable: true,
+              title: const Text("New Todo"),
+              content: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Form(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: myController,
+                        decoration: const InputDecoration(
+                          labelText: "Todo",
+                          icon: Icon(Icons.add_box_outlined),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                ElevatedButton(
+                  child: const Text("Add"),
+                  onPressed: () {
+                    appState.addTodo(myController.text);
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }
