@@ -13,20 +13,17 @@ class ActiveTodos extends StatelessWidget {
     if (appState.activeTodos.isEmpty) {
       return Center(
         child: Column(
-          children: [
-            const Expanded(
+          children: const [
+            Expanded(
               child: Center(
                 child: Text('No Todos'),
               ),
             ),
-            // Add todo button
 
+            // Add todo button
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Icon(Icons.add),
-              ),
+              padding: EdgeInsets.all(8.0),
+              child: AddTodo(),
             ),
           ],
         ),
@@ -38,24 +35,45 @@ class ActiveTodos extends StatelessWidget {
         Expanded(
             child: ListView(
           children: [
-            for (var todo in appState.activeTodos)
-              ListTile(
-                leading: const Icon(Icons.favorite),
-                title: Text(todo),
+            for (var activeTodo in appState.activeTodos)
+              Todo(
+                todo: activeTodo,
               )
           ],
         )),
+
         // Add todo button
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Icon(Icons.add),
-          ),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: AddTodo(),
         ),
       ],
     );
-    // Todos list
-    // Completed toggle
+  }
+}
+
+class Todo extends StatelessWidget {
+  const Todo({super.key, required this.todo});
+
+  final String todo;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.label_important),
+      title: Text(todo),
+    );
+  }
+}
+
+class AddTodo extends StatelessWidget {
+  const AddTodo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {},
+      child: const Icon(Icons.add),
+    );
   }
 }
