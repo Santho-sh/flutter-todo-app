@@ -105,6 +105,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Todo App'),
         leading: const Icon(Icons.toll_outlined),
+        backgroundColor: const Color.fromRGBO(255, 147, 85, 1),
       ),
       body: page,
       bottomNavigationBar: BottomNavigationBar(

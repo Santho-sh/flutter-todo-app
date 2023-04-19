@@ -18,6 +18,17 @@ class CompletedTodos extends StatelessWidget {
 
     return ListView(
       children: [
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            "Completed Todos",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
         for (var completedTodo in appState.completedTodos)
           Todo(
             todo: completedTodo,
@@ -37,7 +48,7 @@ class Todo extends StatelessWidget {
     var appState = Provider.of<AppState>(context);
 
     return ListTile(
-      leading: const Icon(Icons.label_important),
+      leading: const Icon(Icons.check_box_outlined),
       title: Row(
         children: [
           Expanded(child: Text(todo)),
@@ -47,12 +58,47 @@ class Todo extends StatelessWidget {
             child: const Icon(Icons.remove_circle_outline),
           ),
           // Delete button
-          ElevatedButton(
-            onPressed: () => appState.deleteTodo(todo),
-            child: const Icon(Icons.delete_outline_rounded),
-          ),
+          DeleteTodo(todo: todo),
         ],
       ),
+    );
+  }
+}
+
+class DeleteTodo extends StatelessWidget {
+  const DeleteTodo({super.key, required this.todo});
+  final String todo;
+
+  @override
+  Widget build(BuildContext context) {
+    var appState = Provider.of<AppState>(context);
+
+    return ElevatedButton(
+      child: const Icon(Icons.delete_outline_rounded),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              scrollable: true,
+              title: const Text("Confirm Delete?"),
+              actions: [
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: const Text('No'),
+                ),
+                ElevatedButton(
+                  onPressed: () => {
+                    appState.deleteTodo(todo),
+                    Navigator.pop(context, false),
+                  },
+                  child: const Text('Yes'),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

@@ -35,6 +35,17 @@ class ActiveTodos extends StatelessWidget {
         Expanded(
             child: ListView(
           children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Todo List",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
             for (var activeTodo in appState.activeTodos)
               Todo(
                 todo: activeTodo,
@@ -116,6 +127,7 @@ class AddTodo extends StatelessWidget {
                   child: const Text("Add"),
                   onPressed: () {
                     appState.addTodo(myController.text);
+                    Navigator.pop(context, false);
                   },
                 ),
               ],
