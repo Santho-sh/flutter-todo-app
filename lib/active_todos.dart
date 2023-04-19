@@ -59,9 +59,19 @@ class Todo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var appState = Provider.of<AppState>(context);
+    
     return ListTile(
       leading: const Icon(Icons.label_important),
-      title: Text(todo),
+      title: Row(
+        children: [
+          Expanded(child: Text(todo)),
+          ElevatedButton(
+            onPressed: () => appState.markComplete(todo),
+            child: const Icon(Icons.check),
+          )
+        ],
+      ),
     );
   }
 }
@@ -71,9 +81,12 @@ class AddTodo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {},
-      child: const Icon(Icons.add),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

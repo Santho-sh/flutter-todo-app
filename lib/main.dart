@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'completed_todos.dart';
 import 'active_todos.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
 class AppState extends ChangeNotifier {
   var newTodo = 'newone';
   var activeTodos = <String>['Hello', 'Test', 'Tata', 'Test2'];
-  var completedTodos = <String>[];
+  var completedTodos = <String>['Bye', 'Completed'];
 
   void addTodo(String todo) {
     activeTodos.add(todo);
@@ -62,7 +63,7 @@ class AppState extends ChangeNotifier {
   }
 
   void markUncomplete(todo) {
-    if (activeTodos.contains(todo)) {
+    if (completedTodos.contains(todo)) {
       activeTodos.add(todo);
       completedTodos.remove(todo);
       notifyListeners();
