@@ -31,9 +31,13 @@ class AppState extends ChangeNotifier {
   var activeTodos = <String>[];
   var completedTodos = <String>[];
 
-  void addTodo(String todo) {
-    activeTodos.add(todo);
-    notifyListeners();
+  int addTodo(String todo) {
+    if (todo.trim() != "") {
+      activeTodos.add(todo.trim());
+      notifyListeners();
+      return 1;
+    }
+    return 0;
   }
 
   void removeTodo(String todo) {

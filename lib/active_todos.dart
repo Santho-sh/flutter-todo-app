@@ -127,8 +127,25 @@ class AddTodo extends StatelessWidget {
                 ElevatedButton(
                   child: const Text("Add"),
                   onPressed: () {
-                    appState.addTodo(myController.text);
+                    int added = appState.addTodo(myController.text);
                     Navigator.pop(context, false);
+                    if (added == 1) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: Color.fromRGBO(255, 147, 85, 1),
+                          duration: Duration(seconds: 1),
+                          content: Text('New Task Added'),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: Color.fromRGBO(255, 147, 85, 1),
+                          duration: Duration(seconds: 1),
+                          content: Text('Enter Valid Task'),
+                        ),
+                      );
+                    }
                   },
                 ),
               ],
