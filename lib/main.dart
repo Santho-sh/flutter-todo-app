@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
 }
 
 class AppState extends ChangeNotifier {
-  var activeTodos = <String>['Hello', 'Test', 'Tata', 'Test2'];
-  var completedTodos = <String>['Bye', 'Completed'];
+  var activeTodos = <String>[];
+  var completedTodos = <String>[];
 
   void addTodo(String todo) {
     activeTodos.add(todo);

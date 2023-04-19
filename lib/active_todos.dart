@@ -95,6 +95,7 @@ class AddTodo extends StatelessWidget {
     var appState = Provider.of<AppState>(context);
 
     return ElevatedButton(
+      style: ElevatedButton.styleFrom(fixedSize: const Size(70, 40)),
       child: const Icon(Icons.add),
       onPressed: () {
         showDialog(

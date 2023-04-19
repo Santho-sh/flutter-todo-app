@@ -12,7 +12,7 @@ class CompletedTodos extends StatelessWidget {
     // If Todo list is empty
     if (appState.completedTodos.isEmpty) {
       return const Center(
-        child: Text('No Todos'),
+        child: Text('No Completed Todos'),
       );
     }
 
@@ -53,12 +53,17 @@ class Todo extends StatelessWidget {
         children: [
           Expanded(child: Text(todo)),
           // Mark Uncomplete button
-          ElevatedButton(
-            onPressed: () => appState.markUncomplete(todo),
-            child: const Icon(Icons.remove_circle_outline),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: () => appState.markUncomplete(todo),
+                child: const Icon(Icons.remove_circle_outline),
+              ),
+              const SizedBox(width: 10),
+              // Delete button
+              DeleteTodo(todo: todo),
+            ],
           ),
-          // Delete button
-          DeleteTodo(todo: todo),
         ],
       ),
     );
