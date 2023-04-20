@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'main.dart';
+import 'delete_todo.dart';
+import 'app_state.dart';
 
 class CompletedTodos extends StatelessWidget {
   const CompletedTodos({super.key});
@@ -19,9 +20,9 @@ class CompletedTodos extends StatelessWidget {
     return ListView(
       children: [
         const Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(20.0),
           child: Text(
-            "Completed Todos",
+            "Completed Tasks",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 30,
@@ -46,18 +47,33 @@ class Todo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = Provider.of<AppState>(context);
+    final ColorScheme colors = Theme.of(context).colorScheme;
 
     return ListTile(
-      leading: const Icon(Icons.check_box_outlined),
+      leading: const Icon(Icons.check),
       title: Row(
         children: [
-          Expanded(child: Text(todo)),
+          Expanded(
+            child: Text(
+              todo,
+              style: const TextStyle(fontSize: 20),
+            ),
+          ),
           // Mark Uncomplete button
           Row(
             children: [
-              ElevatedButton(
+              IconButton(
                 onPressed: () => appState.markUncomplete(todo),
-                child: const Icon(Icons.remove_circle_outline),
+                icon: const Icon(Icons.remove_circle_outline),
+                style: IconButton.styleFrom(
+                  iconSize: 20,
+                  foregroundColor: colors.onSecondaryContainer,
+                  backgroundColor: colors.secondaryContainer,
+                  disabledBackgroundColor: colors.onSurface.withOpacity(0.12),
+                  hoverColor: colors.onSecondaryContainer.withOpacity(0.08),
+                  focusColor: colors.onSecondaryContainer.withOpacity(0.12),
+                  highlightColor: colors.onSecondaryContainer.withOpacity(0.12),
+                ),
               ),
               const SizedBox(width: 10),
               // Delete button
@@ -66,44 +82,6 @@ class Todo extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class DeleteTodo extends StatelessWidget {
-  const DeleteTodo({super.key, required this.todo});
-  final String todo;
-
-  @override
-  Widget build(BuildContext context) {
-    var appState = Provider.of<AppState>(context);
-
-    return ElevatedButton(
-      child: const Icon(Icons.delete_outline_rounded),
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              scrollable: true,
-              title: const Text("Confirm Delete?"),
-              actions: [
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: const Text('No'),
-                ),
-                ElevatedButton(
-                  onPressed: () => {
-                    appState.deleteTodo(todo),
-                    Navigator.pop(context, false),
-                  },
-                  child: const Text('Yes'),
-                ),
-              ],
-            );
-          },
-        );
-      },
     );
   }
 }
