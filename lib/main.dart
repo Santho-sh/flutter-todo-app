@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'completed_todos.dart';
 import 'active_todos.dart';
@@ -17,23 +19,46 @@ class MyApp extends StatelessWidget {
       create: (context) => AppState(),
       child: MaterialApp(
         title: 'Todo App',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-        ),
+        theme: _buildTheme(Brightness.light),
         home: const HomePage(),
       ),
     );
   }
 }
 
+ThemeData _buildTheme(brightness) {
+  var baseTheme = ThemeData(brightness: brightness);
+
+  return baseTheme.copyWith(
+    textTheme: GoogleFonts.latoTextTheme(baseTheme.textTheme),
+    useMaterial3: true,
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+  );
+}
+
 class AppState extends ChangeNotifier {
+  late SharedPreferences prefs;
   var activeTodos = <String>[];
   var completedTodos = <String>[];
+
+  AppState() {
+    initState();
+  }
+
+  void initState() async {
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.getStringList("activeTodos") != null) {
+      activeTodos = prefs.getStringList("activeTodos")!;
+    }
+    if (prefs.getStringList("completedTodos") != null) {
+      completedTodos = prefs.getStringList("completedTodos")!;
+    }
+  }
 
   int addTodo(String todo) {
     if (todo.trim() != "") {
       activeTodos.add(todo.trim());
+      prefs.setStringList("activeTodos", activeTodos);
       notifyListeners();
       return 1;
     }
@@ -43,6 +68,7 @@ class AppState extends ChangeNotifier {
   void removeTodo(String todo) {
     if (todo.contains(todo)) {
       activeTodos.remove(todo);
+      prefs.setStringList("activeTodos", activeTodos);
       notifyListeners();
     }
   }
@@ -50,9 +76,11 @@ class AppState extends ChangeNotifier {
   void deleteTodo(String todo) {
     if (activeTodos.contains(todo)) {
       activeTodos.remove(todo);
+      prefs.setStringList("activeTodos", activeTodos);
       notifyListeners();
     } else if (completedTodos.contains(todo)) {
       completedTodos.remove(todo);
+      prefs.setStringList("completedTodos", completedTodos);
       notifyListeners();
     }
   }
@@ -61,6 +89,10 @@ class AppState extends ChangeNotifier {
     if (activeTodos.contains(todo)) {
       completedTodos.add(todo);
       activeTodos.remove(todo);
+
+      prefs.setStringList("activeTodos", activeTodos);
+      prefs.setStringList("completedTodos", completedTodos);
+
       notifyListeners();
     }
   }
@@ -69,6 +101,10 @@ class AppState extends ChangeNotifier {
     if (completedTodos.contains(todo)) {
       activeTodos.add(todo);
       completedTodos.remove(todo);
+
+      prefs.setStringList("activeTodos", activeTodos);
+      prefs.setStringList("completedTodos", completedTodos);
+
       notifyListeners();
     }
   }
