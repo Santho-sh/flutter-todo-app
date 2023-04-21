@@ -18,6 +18,7 @@ class AppState extends ChangeNotifier {
     if (prefs.getStringList("completedTodos") != null) {
       completedTodos = prefs.getStringList("completedTodos")!;
     }
+    notifyListeners();
   }
 
   int addTodo(String todo) {
