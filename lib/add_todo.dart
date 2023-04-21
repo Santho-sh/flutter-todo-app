@@ -8,6 +8,7 @@ class AddTodo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = Provider.of<AppState>(context);
+    final ColorScheme colors = Theme.of(context).colorScheme;
 
     return FilledButton(
       style: ElevatedButton.styleFrom(fixedSize: const Size(70, 40)),
@@ -46,18 +47,24 @@ class AddTodo extends StatelessWidget {
                     Navigator.pop(context, false);
                     if (added == 1) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          backgroundColor: Color.fromRGBO(255, 147, 85, 1),
-                          duration: Duration(seconds: 1),
-                          content: Text('New Task Added'),
+                        SnackBar(
+                          backgroundColor: colors.primaryContainer,
+                          duration: const Duration(seconds: 1),
+                          content: Text(
+                            'New Task Added',
+                            style: TextStyle(color: colors.onPrimaryContainer),
+                          ),
                         ),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          backgroundColor: Color.fromRGBO(255, 147, 85, 1),
-                          duration: Duration(seconds: 1),
-                          content: Text('Enter Valid Task'),
+                        SnackBar(
+                          backgroundColor: colors.errorContainer,
+                          duration: const Duration(seconds: 1),
+                          content: Text(
+                            'Enter Valid Task',
+                            style: TextStyle(color: colors.onErrorContainer),
+                          ),
                         ),
                       );
                     }

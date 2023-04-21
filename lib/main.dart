@@ -66,9 +66,13 @@ class _HomePageState extends State<HomePage> {
       });
     }
 
+    final ColorScheme colors = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
-          title: const Text('ToDo'), leading: const Icon(Icons.toll_outlined)),
+          foregroundColor: colors.primary,
+          title: const Text('ToDo'),
+          leading: const Icon(Icons.toll_outlined)),
       body: page,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
